@@ -29,17 +29,13 @@
 
 		<main id="home" class="page-shell">
 			<section class="intro" aria-labelledby="page-title">
-				<p class="eyebrow"><span></span> To my favorite person</p>
+				<p class="eyebrow"><span></span> To My Baby</p>
 				<h1 id="page-title">For the way you make <em>everything bloom.</em></h1>
 				<p class="intro-copy">
 					A few words for the person who makes ordinary days feel like something
 					worth remembering.
 				</p>
 				<div class="intro-actions">
-					<button class="text-button" id="edit-letter" type="button">
-						<span class="button-mark" aria-hidden="true">✎</span>
-						Make it yours
-					</button>
 					<button class="replay-button" id="replay-bloom" type="button">
 						Replay the flowers
 					</button>
@@ -53,7 +49,7 @@
 					<span class="letter-sparkle" aria-hidden="true">✳</span>
 				</div>
 				<div class="letter-rule"></div>
-				<p class="letter-to" id="letter-to">My favorite person,</p>
+				<p class="letter-to" id="letter-to">My Baby,</p>
 				<p class="letter-message" id="letter-message">
 					I don't think you realize how much brighter you make everything around
 					you. The little things you do, the way you laugh, the way you make a
@@ -64,7 +60,7 @@
 					you.
 				</p>
 				<p class="letter-signoff">All my love,</p>
-				<p class="letter-signature" id="letter-signature">Your person</p>
+				<p class="letter-signature" id="letter-signature">THE MOST POGI ADRIAN</p>
 				<span class="letter-stamp" aria-hidden="true">with<br />love</span>
 			</article>
 		</main>
@@ -102,82 +98,7 @@
 			</div>
 		</div>
 
-		<dialog class="edit-dialog" id="letter-dialog" aria-labelledby="dialog-title">
-			<form id="letter-form" method="dialog">
-				<div class="dialog-heading">
-					<div>
-						<p class="eyebrow"><span></span> Your words</p>
-						<h2 id="dialog-title">Make this letter yours.</h2>
-					</div>
-					<button class="close-button" id="close-dialog" type="button" aria-label="Close letter editor">×</button>
-				</div>
-				<label for="recipient-input">Dear...</label>
-				<input id="recipient-input" name="recipient" maxlength="60" value="My favorite person" />
-				<label for="message-input">Your letter</label>
-				<textarea id="message-input" name="message" rows="8" maxlength="1200" required></textarea>
-				<label for="signature-input">Sign off</label>
-				<input id="signature-input" name="signature" maxlength="60" value="Your person" />
-				<div class="dialog-actions">
-					<button class="cancel-button" id="cancel-edit" type="button">Cancel</button>
-					<button class="save-button" type="submit">Save my letter</button>
-				</div>
-			</form>
-		</dialog>
-
 		<script>
-			const dialog = document.querySelector("#letter-dialog");
-			const form = document.querySelector("#letter-form");
-			const messageInput = document.querySelector("#message-input");
-			const recipientInput = document.querySelector("#recipient-input");
-			const signatureInput = document.querySelector("#signature-input");
-			const letterMessage = document.querySelector("#letter-message");
-			const letterTo = document.querySelector("#letter-to");
-			const letterSignature = document.querySelector("#letter-signature");
-			const storageKey = "a-little-letter";
-
-			function applyLetter(letter) {
-				letterTo.textContent = `${letter.recipient || "My favorite person"},`;
-				letterMessage.textContent = letter.message;
-				letterSignature.textContent = letter.signature || "Your person";
-			}
-
-			try {
-				const savedLetter = localStorage.getItem(storageKey);
-				if (savedLetter) applyLetter(JSON.parse(savedLetter));
-			} catch {
-				localStorage.removeItem(storageKey);
-			}
-
-			document.querySelector("#edit-letter").addEventListener("click", () => {
-				recipientInput.value = letterTo.textContent.replace(/,$/, "");
-				messageInput.value = letterMessage.innerText;
-				signatureInput.value = letterSignature.textContent;
-				dialog.showModal();
-				recipientInput.focus();
-			});
-
-			form.addEventListener("submit", (event) => {
-				event.preventDefault();
-				const letter = {
-					recipient: recipientInput.value.trim(),
-					message: messageInput.value.trim(),
-					signature: signatureInput.value.trim(),
-				};
-				applyLetter(letter);
-				try {
-					localStorage.setItem(storageKey, JSON.stringify(letter));
-				} catch {
-					// The letter still updates for this visit if storage is unavailable.
-				}
-				dialog.close();
-			});
-
-			document.querySelector("#close-dialog").addEventListener("click", () => dialog.close());
-			document.querySelector("#cancel-edit").addEventListener("click", () => dialog.close());
-			dialog.addEventListener("click", (event) => {
-				if (event.target === dialog) dialog.close();
-			});
-
 			document.querySelector("#replay-bloom").addEventListener("click", () => {
 				const flowerBed = document.querySelector("#flower-bed");
 				flowerBed.classList.remove("is-blooming");
