@@ -1,12 +1,20 @@
-﻿function openEnvelope() {
-  const envelope = document.querySelector(".envelope");
-  const seal = document.querySelector(".seal");
+const letterButton = document.querySelector("#letter-button");
+const loveLetter = document.querySelector("#love-letter");
 
-  if (!envelope) return;
+letterButton.addEventListener("click", () => {
+  const isOpening = !loveLetter.classList.contains("is-open");
 
-  envelope.classList.toggle("open");
+  loveLetter.classList.toggle("is-open", isOpening);
+  loveLetter.setAttribute("aria-hidden", String(!isOpening));
+  letterButton.setAttribute("aria-expanded", String(isOpening));
+  letterButton.querySelector("span:first-child").textContent = isOpening
+    ? "Close your little letter"
+    : "Open your little letter";
+  letterButton.querySelector(".button-heart").textContent = isOpening ? "♥" : "♡";
 
-  if (seal) {
-    seal.style.opacity = envelope.classList.contains("open") ? "0" : "1";
+  if (isOpening) {
+    window.setTimeout(() => {
+      loveLetter.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }, 180);
   }
-}
+});

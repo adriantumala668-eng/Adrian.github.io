@@ -1,53 +1,104 @@
-﻿<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>For My Love ❤️</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <div class="heart" style="left: 5%; animation-delay: 0s;">❤️</div>
-  <div class="heart" style="left: 15%; animation-delay: 2s;">💕</div>
-  <div class="heart" style="left: 30%; animation-delay: 1s;">❤️</div>
-  <div class="heart" style="left: 50%; animation-delay: 3s;">💖</div>
-  <div class="heart" style="left: 70%; animation-delay: 5s;">❤️</div>
-  <div class="heart" style="left: 90%; animation-delay: 4s;">💕</div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="theme-color"
+      content="#241b25"
+    />
+    <meta
+      name="description"
+      content="A little blooming bouquet and a love note, made just for you."
+    />
+    <title>A little something for you</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <main class="scene">
+      <div class="ambient ambient--one" aria-hidden="true"></div>
+      <div class="ambient ambient--two" aria-hidden="true"></div>
 
-  <div class="container">
-    <div class="envelope" onclick="openEnvelope()">
-      <div class="letter">
-        <h1>To My Baby ❤️</h1>
-        <p>
-          My baby,<br /><br />
-          Every day with you feels like a beautiful dream. Your smile brightens my darkest days,
-          and your love fills my heart with happiness.<br /><br />
-          Thank you for being my favorite person, my safe place, and the reason I smile so often.<br /><br />
-          No matter what happens, I promise to always care for you, support you, and cherish every
-          moment we create together.<br /><br />
-          You will always have a special place in my heart.
-        </p>
-        <h3>Forever Yours ❤️</h3>
-      </div>
+      <section class="gift" aria-labelledby="page-title">
+        <p class="eyebrow"><span aria-hidden="true">✦</span> picked just for you <span aria-hidden="true">✦</span></p>
+        <h1 id="page-title">A little something<br /><em>for my Baby</em></h1>
+        <p class="intro">I made you a bouquet. Every flower comes with a little piece of my heart.</p>
 
-      <div class="back"></div>
-      <div class="front"></div>
-      <div class="front-bottom"></div>
-      <div class="seal">❤</div>
-      <div class="cover-text">
-        <h2>For You</h2>
-        <p>With all my love</p>
-      </div>
-    </div>
+        <div class="bouquet" role="img" aria-label="A hand-drawn bouquet of pink, coral, and yellow flowers blooming">
+          <div class="bouquet-glow" aria-hidden="true"></div>
 
-    <div class="click-text">💌 Click The Envelope 💌</div>
-  </div>
+          <div class="sprig sprig--left" aria-hidden="true">
+            <i></i><i></i><i></i><i></i>
+          </div>
+          <div class="sprig sprig--right" aria-hidden="true">
+            <i></i><i></i><i></i><i></i>
+          </div>
 
-  <div class="spark spark1">✨</div>
-  <div class="spark spark2">✨</div>
-  <div class="spark spark3">✨</div>
-  <div class="spark spark4">✨</div>
+          <div class="stem stem--one" aria-hidden="true"><i></i></div>
+          <div class="stem stem--two" aria-hidden="true"><i></i></div>
+          <div class="stem stem--three" aria-hidden="true"><i></i></div>
+          <div class="stem stem--four" aria-hidden="true"><i></i></div>
+          <div class="stem stem--five" aria-hidden="true"><i></i></div>
 
-  <script src="script.js"></script>
-</body>
+          <div class="flower flower--one" aria-hidden="true">
+            <i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i>
+            <b class="flower-center"></b>
+          </div>
+          <div class="flower flower--two" aria-hidden="true">
+            <i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i>
+            <b class="flower-center"></b>
+          </div>
+          <div class="flower flower--three" aria-hidden="true">
+            <i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i>
+            <b class="flower-center"></b>
+          </div>
+          <div class="flower flower--four" aria-hidden="true">
+            <i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i>
+            <b class="flower-center"></b>
+          </div>
+          <div class="flower flower--five" aria-hidden="true">
+            <i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i>
+            <b class="flower-center"></b>
+          </div>
+
+          <div class="wrap" aria-hidden="true">
+            <div class="wrap-fold"></div>
+            <div class="ribbon"></div>
+            <div class="bow bow--left"></div>
+            <div class="bow bow--right"></div>
+            <div class="bow-knot"></div>
+          </div>
+          <div class="bouquet-shadow" aria-hidden="true"></div>
+        </div>
+
+        <button class="letter-button" id="letter-button" type="button" aria-expanded="false" aria-controls="love-letter">
+          <span>Open your little letter</span>
+          <span class="button-heart" aria-hidden="true">♡</span>
+        </button>
+
+        <article class="letter" id="love-letter" aria-hidden="true">
+          <div class="letter-rule"><span aria-hidden="true">♥</span></div>
+          <p class="letter-greeting">My Baby,</p>
+          <p class="letter-copy">
+            If I could tuck one thought between these petals, it’d be this:
+            even an ordinary day feels special when I get to share it with you.
+            I’m so glad you’re mine.
+          </p>
+          <p class="letter-signoff">All my love,</p>
+          <p class="signature">Adrian POGI</p>
+          <span class="letter-sparkle letter-sparkle--one" aria-hidden="true">✦</span>
+          <span class="letter-sparkle letter-sparkle--two" aria-hidden="true">✧</span>
+        </article>
+
+        <p class="footer-note">made with all my love <span aria-hidden="true">♡</span></p>
+      </section>
+    </main>
+  </body>
 </html>
