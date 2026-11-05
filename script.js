@@ -1,20 +1,16 @@
-const letterButton = document.querySelector("#letter-button");
-const loveLetter = document.querySelector("#love-letter");
+const noteToggle = document.querySelector('.note-toggle');
+const letter = document.querySelector('.letter');
+const notePaper = document.querySelector('.letter-paper');
 
-letterButton.addEventListener("click", () => {
-  const isOpening = !loveLetter.classList.contains("is-open");
+function toggleNote() {
+  const isOpen = letter.classList.toggle('is-open');
+  noteToggle.setAttribute('aria-expanded', String(isOpen));
+  noteToggle.setAttribute('aria-label', isOpen ? 'Close love note' : 'Open love note');
+  noteToggle.querySelector('.note-label').textContent = isOpen ? 'Close note' : 'Open note';
+}
 
-  loveLetter.classList.toggle("is-open", isOpening);
-  loveLetter.setAttribute("aria-hidden", String(!isOpening));
-  letterButton.setAttribute("aria-expanded", String(isOpening));
-  letterButton.querySelector("span:first-child").textContent = isOpening
-    ? "Close your little letter"
-    : "Open your little letter";
-  letterButton.querySelector(".button-heart").textContent = isOpening ? "♥" : "♡";
-
-  if (isOpening) {
-    window.setTimeout(() => {
-      loveLetter.scrollIntoView({ behavior: "smooth", block: "nearest" });
-    }, 180);
+if (noteToggle && letter) {
+  if (notePaper) {
+    notePaper.addEventListener('click', toggleNote);
   }
-});
+}

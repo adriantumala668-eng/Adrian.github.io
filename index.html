@@ -1,104 +1,65 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="theme-color"
-      content="#241b25"
-    />
-    <meta
-      name="description"
-      content="A little blooming bouquet and a love note, made just for you."
-    />
-    <title>A little something for you</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="style.css" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#a9a9a9">
+    <title>A little bouquet for my baby</title>
+    <link rel="stylesheet" href="styles.css">
     <script src="script.js" defer></script>
   </head>
   <body>
-    <main class="scene">
-      <div class="ambient ambient--one" aria-hidden="true"></div>
-      <div class="ambient ambient--two" aria-hidden="true"></div>
+    <main class="love-note">
+      <section class="bouquet-card" aria-label="A bouquet of lilies and a love letter">
+        <div class="bouquet-scene" role="img" aria-label="Five pink lilies blooming in a bouquet">
+          <span class="sparkle sparkle-one" aria-hidden="true">✦</span>
+          <span class="sparkle sparkle-two" aria-hidden="true">✧</span>
+          <span class="sparkle sparkle-three" aria-hidden="true">✦</span>
 
-      <section class="gift" aria-labelledby="page-title">
-        <p class="eyebrow"><span aria-hidden="true">✦</span> picked just for you <span aria-hidden="true">✦</span></p>
-        <h1 id="page-title">A little something<br /><em>for my Baby</em></h1>
-        <p class="intro">I made you a bouquet. Every flower comes with a little piece of my heart.</p>
-
-        <div class="bouquet" role="img" aria-label="A hand-drawn bouquet of pink, coral, and yellow flowers blooming">
-          <div class="bouquet-glow" aria-hidden="true"></div>
-
-          <div class="sprig sprig--left" aria-hidden="true">
-            <i></i><i></i><i></i><i></i>
-          </div>
-          <div class="sprig sprig--right" aria-hidden="true">
-            <i></i><i></i><i></i><i></i>
-          </div>
-
-          <div class="stem stem--one" aria-hidden="true"><i></i></div>
-          <div class="stem stem--two" aria-hidden="true"><i></i></div>
-          <div class="stem stem--three" aria-hidden="true"><i></i></div>
-          <div class="stem stem--four" aria-hidden="true"><i></i></div>
-          <div class="stem stem--five" aria-hidden="true"><i></i></div>
-
-          <div class="flower flower--one" aria-hidden="true">
-            <i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i>
-            <b class="flower-center"></b>
-          </div>
-          <div class="flower flower--two" aria-hidden="true">
-            <i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i>
-            <b class="flower-center"></b>
-          </div>
-          <div class="flower flower--three" aria-hidden="true">
-            <i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i>
-            <b class="flower-center"></b>
-          </div>
-          <div class="flower flower--four" aria-hidden="true">
-            <i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i>
-            <b class="flower-center"></b>
-          </div>
-          <div class="flower flower--five" aria-hidden="true">
-            <i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i>
-            <b class="flower-center"></b>
+          <div class="stems" aria-hidden="true">
+            <i class="stem stem-one"></i>
+            <i class="stem stem-two"></i>
+            <i class="stem stem-three"></i>
+            <i class="stem stem-four"></i>
+            <i class="stem stem-five"></i>
+            <i class="leaf leaf-one"></i>
+            <i class="leaf leaf-two"></i>
+            <i class="leaf leaf-three"></i>
+            <i class="leaf leaf-four"></i>
           </div>
 
-          <div class="wrap" aria-hidden="true">
-            <div class="wrap-fold"></div>
-            <div class="ribbon"></div>
-            <div class="bow bow--left"></div>
-            <div class="bow bow--right"></div>
-            <div class="bow-knot"></div>
-          </div>
-          <div class="bouquet-shadow" aria-hidden="true"></div>
+          <div class="lily lily-one" aria-hidden="true"><span class="flower-head"><i></i><i></i><i></i><i></i><i></i><i></i><b></b></span></div>
+          <div class="lily lily-two" aria-hidden="true"><span class="flower-head"><i></i><i></i><i></i><i></i><i></i><i></i><b></b></span></div>
+          <div class="lily lily-three" aria-hidden="true"><span class="flower-head"><i></i><i></i><i></i><i></i><i></i><i></i><b></b></span></div>
+          <div class="lily lily-four" aria-hidden="true"><span class="flower-head"><i></i><i></i><i></i><i></i><i></i><i></i><b></b></span></div>
+          <div class="lily lily-five" aria-hidden="true"><span class="flower-head"><i></i><i></i><i></i><i></i><i></i><i></i><b></b></span></div>
+
+          <div class="wrapper" aria-hidden="true"></div>
+          <div class="ribbon" aria-hidden="true"></div>
+          <span class="bouquet-caption">just for you</span>
         </div>
 
-        <button class="letter-button" id="letter-button" type="button" aria-expanded="false" aria-controls="love-letter">
-          <span>Open your little letter</span>
-          <span class="button-heart" aria-hidden="true">♡</span>
-        </button>
-
-        <article class="letter" id="love-letter" aria-hidden="true">
-          <div class="letter-rule"><span aria-hidden="true">♥</span></div>
-          <p class="letter-greeting">My Baby,</p>
-          <p class="letter-copy">
-            If I could tuck one thought between these petals, it’d be this:
-            even an ordinary day feels special when I get to share it with you.
-            I’m so glad you’re mine.
-          </p>
-          <p class="letter-signoff">All my love,</p>
-          <p class="signature">Adrian POGI</p>
-          <span class="letter-sparkle letter-sparkle--one" aria-hidden="true">✦</span>
-          <span class="letter-sparkle letter-sparkle--two" aria-hidden="true">✧</span>
+        <article class="letter">
+          <div class="letter-paper">
+            <button class="note-toggle" aria-expanded="false" aria-label="Open love note">
+              <span class="note-label">Open note</span>
+            </button>
+            <span class="paper-binding" aria-hidden="true"></span>
+            <p class="paper-front">A little note <span>for my baby</span></p>
+            <h1>For my baby, <span>with love</span></h1>
+            <div class="rule" aria-hidden="true"><span>✿</span></div>
+            <p class="poem">
+              Like lilies waking with the morning light,<br>
+              you make my every day feel bright.<br>
+              Wherever life may lead us to,<br>
+              my heart will always bloom for you.
+            </p>
+            <p class="closing">All my love, always,</p>
+            <p class="signature">Adrian pogi <span>♡</span></p>
+          </div>
         </article>
-
-        <p class="footer-note">made with all my love <span aria-hidden="true">♡</span></p>
       </section>
+      <p class="footnote">Made with love, and a little bit of sunshine.</p>
     </main>
   </body>
 </html>
