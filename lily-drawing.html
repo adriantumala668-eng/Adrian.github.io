@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>A Lily, Drawn by Pencil</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: Georgia, "Times New Roman", serif;
+      color: #443832;
+      background: #f3eee6;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 32px 18px;
+      background:
+        radial-gradient(ellipse at 50% 24%, #fffdf8 0%, #f6f1e9 56%, #eee6dc 100%);
+    }
+    main { width: min(100%, 760px); text-align: center; }
+    .eyebrow {
+      margin: 0 0 10px;
+      color: #a8766b;
+      font: 600 11px/1.4 system-ui, sans-serif;
+      letter-spacing: .24em;
+      text-transform: uppercase;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(32px, 6vw, 52px);
+      font-weight: 400;
+      letter-spacing: -.035em;
+    }
+    .intro {
+      margin: 12px 0 24px;
+      color: #81736b;
+      font-size: 15px;
+    }
+    .frame {
+      overflow: hidden;
+      border: 1px solid #e8dfd3;
+      border-radius: 5px;
+      background: #fbf8f2;
+      box-shadow: 0 18px 55px #56402c18, 0 2px 8px #56402c0c;
+    }
+    canvas {
+      display: block;
+      width: 100%;
+      height: auto;
+      cursor: url("pencil-cursor.svg") 5 42, crosshair;
+      touch-action: none;
+    }
+    .controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 20px;
+    }
+    button {
+      border: 1px solid #d8c8b7;
+      border-radius: 999px;
+      padding: 11px 20px;
+      background: #fffdf9;
+      color: #514139;
+      font: 600 13px system-ui, sans-serif;
+      cursor: pointer;
+      transition: background .2s, transform .2s, border-color .2s;
+    }
+    button:hover { transform: translateY(-1px); border-color: #b98b7d; background: #fff8f1; }
+    button.primary { border-color: #a96f64; background: #a96f64; color: white; }
+    button.primary:hover { background: #925c54; }
+    button:focus-visible { outline: 3px solid #dca790; outline-offset: 3px; }
+    #status { min-height: 20px; margin: 13px 0 0; color: #8c7d72; font: 12px/1.5 system-ui, sans-serif; }
+    .signature { margin-top: 7px; color: #b7a99a; font: italic 14px Georgia, serif; }
+    .love-note {
+      position: fixed;
+      z-index: 2;
+      left: 18px;
+      bottom: 18px;
+      width: min(390px, calc(100vw - 36px));
+      padding: 28px 28px 22px 40px;
+      border: 1px solid #e8d9c6;
+      border-radius: 3px 8px 5px 3px;
+      background:
+        linear-gradient(90deg, transparent 0 27px, #dca9a0 27px 28px, transparent 28px),
+        repeating-linear-gradient(to bottom, #fffdf8 0 34px, #e9e1d7 35px, #fffdf8 36px);
+      box-shadow: 0 12px 32px #56402c30;
+      text-align: left;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transform: translateY(16px) rotate(-.5deg);
+      transition: opacity .35s ease, transform .35s ease, visibility 0s linear .35s;
+    }
+    .love-note.is-visible {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transform: translateY(0) rotate(-.5deg);
+      transition-delay: 0s;
+    }
+    .note-to {
+      margin: 0 0 12px;
+      color: #a96f64;
+      font-size: 25px;
+      font-style: italic;
+    }
+    .note-message {
+      margin: 0;
+      color: #60524b;
+      font-size: 17px;
+      line-height: 2;
+    }
+    .note-from {
+      margin: 12px 0 0;
+      color: #a96f64;
+      font-size: 16px;
+      font-style: italic;
+      text-align: right;
+    }
+    .note-close {
+      display: block;
+      margin: 18px 0 0 auto;
+      padding: 8px 16px;
+      font-size: 12px;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      button, .love-note { transition: none; }
+    }
+    @media (max-width: 600px) {
+      .love-note {
+        left: 10px;
+        bottom: 10px;
+        width: min(340px, calc(100vw - 20px));
+        padding: 22px 18px 18px 30px;
+      }
+      .note-to { font-size: 22px; }
+      .note-message { font-size: 15px; line-height: 1.8; }
+      .note-from { font-size: 14px; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="eyebrow">A little botanical study</p>
+    <h1>A Lily, Drawn by Pencil</h1>
+    <p class="intro">Follow the guide lines and draw the lily yourself. Finish every line to reveal your letter.</p>
+    <div class="frame">
+      <canvas id="art" width="960" height="960" role="img" aria-label="Draw the lily by tracing each highlighted guide line, starting at its small circle"></canvas>
+    </div>
+    <div class="controls">
+      <button id="replay" type="button">Start over</button>
+    </div>
+    <p id="status" role="status" aria-live="polite">Start at the small circle, then trace the highlighted line.</p>
+    <p class="signature">Made with a little patience &amp; a pencil</p>
+  </main>
+  <aside class="love-note" aria-label="A little love note" aria-hidden="true">
+    <p class="note-to">To my baby,</p>
+    <p class="note-message">Thank you for giving me so much of your time. I appreciate every moment with you. You make me feel so loved. I love you.</p>
+    <p class="note-from">From your handsome Baby</p>
+    <button class="note-close" id="close-letter" type="button">Close letter</button>
+  </aside>
+  <script>
+    const canvas = document.querySelector("#art");
+    const ctx = canvas.getContext("2d");
+    const status = document.querySelector("#status");
+    const replayButton = document.querySelector("#replay");
+    const closeLetterButton = document.querySelector("#close-letter");
+    const loveNote = document.querySelector(".love-note");
+    const paper = "#fbf8f2";
+    const ink = "#60524b";
+    const rose = "#bc7c7c";
+    const green = "#71846a";
+    const traceTolerance = 34;
+
+    function stroke(start, curves, options = {}) {
+      const points = [start];
+      let from = start;
+      for (const curve of curves) {
+        const [x1, y1, x2, y2, x, y] = curve;
+        for (let i = 1; i <= 42; i++) {
+          const t = i / 42, u = 1 - t;
+          points.push([
+            u ** 3 * from[0] + 3 * u ** 2 * t * x1 + 3 * u * t ** 2 * x2 + t ** 3 * x,
+            u ** 3 * from[1] + 3 * u ** 2 * t * y1 + 3 * u * t ** 2 * y2 + t ** 3 * y
+          ]);
+        }
+        from = [x, y];
+      }
+      let length = 0;
+      for (let i = 1; i < points.length; i++) {
+        length += Math.hypot(points[i][0] - points[i - 1][0], points[i][1] - points[i - 1][1]);
+      }
+      return { points, length, ...options };
+    }
+
+    const flowerCenter = [480, 388];
+    const petalAngles = Array.from({ length: 6 }, (_, index) => -Math.PI / 2 + index * Math.PI / 3);
+
+    function petalPoint(angle, distance, offset = 0) {
+      return [
+        flowerCenter[0] + distance * Math.cos(angle) - offset * Math.sin(angle),
+        flowerCenter[1] + distance * Math.sin(angle) + offset * Math.cos(angle)
+      ];
+    }
+
+    const petalStrokes = petalAngles.map((angle, index) => {
+      const length = 228, halfWidth = 65;
+      return stroke(flowerCenter, [
+        [
+          ...petalPoint(angle, length * .28, halfWidth * .62),
+          ...petalPoint(angle, length * .84, halfWidth * .86),
+          ...petalPoint(angle, length)
+        ],
+        [
+          ...petalPoint(angle, length * .84, -halfWidth * .86),
+          ...petalPoint(angle, length * .28, -halfWidth * .62),
+          ...flowerCenter
+        ]
+      ], {
+        color: rose,
+        width: 5,
+        duration: 1.15,
+        fill: index % 2 ? "#f8e9e3" : "#f4e3df"
+      });
+    });
+
+    const veinStrokes = petalAngles.map(angle => stroke(flowerCenter, [[
+      ...petalPoint(angle, 55, 3),
+      ...petalPoint(angle, 125, 2),
+      ...petalPoint(angle, 178)
+    ]], { color: "#d89b93", width: 3, duration: .55 }));
+
+    const stamens = petalAngles.map(angle => stroke(flowerCenter, [[
+      ...petalPoint(angle, 48, 4),
+      ...petalPoint(angle, 112, -3),
+      ...petalPoint(angle, 160)
+    ]], { color: "#bf8b45", width: 3, duration: .5 }));
+
+    const strokes = [
+      stroke([477, 388], [[486, 535, 486, 686, 490, 806]], { color: green, width: 8, duration: 1.05 }),
+      stroke([490, 679], [[446, 625, 388, 604, 332, 627], [385, 668, 433, 691, 490, 702]], { color: green, width: 5, duration: .9, fill: "#dce1ce" }),
+      stroke([488, 742], [[550, 690, 615, 676, 666, 695], [612, 741, 554, 758, 489, 770]], { color: green, width: 5, duration: .9, fill: "#dce1ce" }),
+      stroke([477, 576], [[437, 524, 382, 504, 341, 520], [386, 559, 431, 580, 481, 594]], { color: green, width: 4, duration: .85, fill: "#e5e5d5" }),
+      stroke([491, 632], [[542, 587, 587, 574, 624, 590], [584, 627, 539, 646, 490, 655]], { color: green, width: 4, duration: .85, fill: "#e5e5d5" }),
+      ...petalStrokes,
+      ...veinStrokes,
+      ...stamens
+    ];
+
+    let currentStroke = 0;
+    let drawing = false;
+    let lastPoint = null;
+    let progressIndex = 0;
+    let missedGuidePoints = 0;
+    let userPaths = [];
+
+    function paintPaper() {
+      ctx.fillStyle = paper;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.save();
+      ctx.globalAlpha = .22;
+      ctx.strokeStyle = "#e7ddcf";
+      ctx.lineWidth = 1;
+      for (let y = 44; y < 940; y += 36) {
+        ctx.beginPath();
+        ctx.moveTo(44, y);
+        ctx.lineTo(916, y);
+        ctx.stroke();
+      }
+      ctx.restore();
+      ctx.fillStyle = "#a98b78";
+      ctx.font = "600 14px system-ui, sans-serif";
+      ctx.textAlign = "center";
+      ctx.letterSpacing = "4px";
+      ctx.fillText("LILIUM  ·  BOTANICAL SKETCH", 480, 76);
+      ctx.fillStyle = "#b9a99a";
+      ctx.font = "italic 17px Georgia, serif";
+      ctx.letterSpacing = "1px";
+      ctx.fillText("lilium oriental", 480, 886);
+      ctx.strokeStyle = "#e2d6c9";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(390, 858);
+      ctx.lineTo(570, 858);
+      ctx.stroke();
+    }
+
+    function drawStroke(item) {
+      if (item.fill) {
+        ctx.beginPath();
+        ctx.moveTo(...item.points[0]);
+        for (const point of item.points.slice(1)) ctx.lineTo(...point);
+        ctx.closePath();
+        ctx.fillStyle = item.fill;
+        ctx.fill();
+      }
+      ctx.beginPath();
+      ctx.moveTo(...item.points[0]);
+      for (const point of item.points.slice(1)) ctx.lineTo(...point);
+      if (item.fill) ctx.closePath();
+      ctx.strokeStyle = item.color;
+      ctx.lineWidth = item.width;
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+      ctx.stroke();
+    }
+
+    function drawGuide(item, active) {
+      ctx.beginPath();
+      ctx.moveTo(...item.points[0]);
+      for (const point of item.points.slice(1)) ctx.lineTo(...point);
+      if (item.fill) ctx.closePath();
+      ctx.strokeStyle = active ? "#c28379" : "#c9b9a9";
+      ctx.globalAlpha = active ? .9 : .42;
+      ctx.lineWidth = active ? 8 : 5;
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+      ctx.setLineDash(active ? [8, 8] : []);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.globalAlpha = 1;
+    }
+
+    function drawUserPath(points) {
+      if (points.length < 2) return;
+      ctx.beginPath();
+      ctx.moveTo(...points[0]);
+      for (const point of points.slice(1)) ctx.lineTo(...point);
+      ctx.strokeStyle = ink;
+      ctx.lineWidth = 5;
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+      ctx.stroke();
+    }
+
+    function render() {
+      paintPaper();
+      strokes.forEach((item, index) => {
+        if (index < currentStroke) drawStroke(item);
+        else drawGuide(item, index === currentStroke);
+        drawUserPath(userPaths[index] || []);
+      });
+      if (currentStroke < strokes.length) {
+        const [x, y] = strokes[currentStroke].points[0];
+        ctx.beginPath();
+        ctx.arc(x, y, 8, 0, Math.PI * 2);
+        ctx.fillStyle = "#fffdf8";
+        ctx.fill();
+        ctx.lineWidth = 3;
+        ctx.strokeStyle = "#a96f64";
+        ctx.stroke();
+      }
+    }
+
+    function canvasPoint(event) {
+      const bounds = canvas.getBoundingClientRect();
+      return [
+        (event.clientX - bounds.left) * canvas.width / bounds.width,
+        (event.clientY - bounds.top) * canvas.height / bounds.height
+      ];
+    }
+
+    function distance(a, b) {
+      return Math.hypot(a[0] - b[0], a[1] - b[1]);
+    }
+
+    function followGuide(point) {
+      const item = strokes[currentStroke];
+      const points = item.points;
+      const firstIndex = Math.max(0, progressIndex - 5);
+      const lastIndex = Math.min(points.length - 1, progressIndex + 36);
+      let nearestIndex = progressIndex;
+      let nearestDistance = Infinity;
+      for (let index = firstIndex; index <= lastIndex; index++) {
+        const pointDistance = distance(point, points[index]);
+        if (pointDistance < nearestDistance) {
+          nearestDistance = pointDistance;
+          nearestIndex = index;
+        }
+      }
+      if (nearestDistance > traceTolerance) {
+        missedGuidePoints++;
+        if (missedGuidePoints >= 4) {
+          userPaths[currentStroke] = [];
+          progressIndex = 0;
+          drawing = false;
+          lastPoint = null;
+          status.textContent = "Pencil marks erased. Start this line again at its small circle.";
+        }
+      } else {
+        missedGuidePoints = 0;
+        progressIndex = Math.max(progressIndex, nearestIndex);
+        const snappedPoint = points[progressIndex];
+        const path = userPaths[currentStroke];
+        if (!path.length || distance(path[path.length - 1], snappedPoint) > 3) {
+          path.push(snappedPoint);
+        }
+      }
+      const end = points[points.length - 1];
+      if (drawing && progressIndex >= (points.length - 1) * .88 && distance(point, end) <= traceTolerance + 8) {
+        currentStroke++;
+        drawing = false;
+        lastPoint = null;
+        progressIndex = 0;
+        if (currentStroke === strokes.length) {
+          status.textContent = "Beautifully drawn. Your letter is here.";
+          loveNote.classList.add("is-visible");
+          loveNote.setAttribute("aria-hidden", "false");
+          closeLetterButton.focus();
+        } else {
+          status.textContent = `Lovely. Follow line ${currentStroke + 1} of ${strokes.length}, starting at its small circle.`;
+        }
+      }
+      render();
+    }
+
+    canvas.addEventListener("pointerdown", event => {
+      if (currentStroke >= strokes.length) return;
+      const point = canvasPoint(event);
+      const start = strokes[currentStroke].points[0];
+      if (distance(point, start) > traceTolerance + 8) {
+        status.textContent = "Start at the small circle, then follow the highlighted line.";
+        return;
+      }
+      drawing = true;
+      lastPoint = point;
+      missedGuidePoints = 0;
+      userPaths[currentStroke].push(start);
+      canvas.setPointerCapture(event.pointerId);
+      render();
+    });
+
+    canvas.addEventListener("pointermove", event => {
+      if (!drawing || currentStroke >= strokes.length) return;
+      const point = canvasPoint(event);
+      const distanceFromLast = distance(point, lastPoint);
+      const steps = Math.max(1, Math.ceil(distanceFromLast / 10));
+      for (let step = 1; step <= steps && drawing; step++) {
+        const fraction = step / steps;
+        followGuide([
+          lastPoint[0] + (point[0] - lastPoint[0]) * fraction,
+          lastPoint[1] + (point[1] - lastPoint[1]) * fraction
+        ]);
+      }
+      lastPoint = drawing ? point : null;
+    });
+
+    canvas.addEventListener("pointerup", () => {
+      drawing = false;
+      lastPoint = null;
+    });
+
+    canvas.addEventListener("pointercancel", () => {
+      drawing = false;
+      lastPoint = null;
+    });
+
+    replayButton.addEventListener("click", () => {
+      currentStroke = 0;
+      drawing = false;
+      lastPoint = null;
+      progressIndex = 0;
+      missedGuidePoints = 0;
+      userPaths = strokes.map(() => []);
+      status.textContent = "Start at the small circle, then trace the highlighted line.";
+      loveNote.classList.remove("is-visible");
+      loveNote.setAttribute("aria-hidden", "true");
+      render();
+    });
+
+    closeLetterButton.addEventListener("click", () => {
+      loveNote.classList.remove("is-visible");
+      loveNote.setAttribute("aria-hidden", "true");
+      replayButton.focus();
+    });
+
+    userPaths = strokes.map(() => []);
+    render();
+  </script>
+</body>
+</html>
